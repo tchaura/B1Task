@@ -1,0 +1,19 @@
+﻿<Window x:Class="B1Task.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:B1Task"
+        mc:Ignorable="d"
+        Title="B1 Test Task" Height="270" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <Button Height="30" Content="Генерировать файлы" Name="GenerateFilesButton" Click="GenerateFilesButton_Click" Margin="10"/>
+            <TextBlock Text="Введите строку для фильтрации:" Margin="10"/>
+            <TextBox Name="FilterTextBox" Margin="10"/>
+
+            <Button Height="30" Content="Объединить файлы" Name="MergeFilesButton" Click="MergeFilesButton_Click" Margin="10"/>
+            <Button Height="30" Content="Импортировать в БД" Name="ImportToDatabaseButton" Click="ImportToDatabaseButton_Click" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>

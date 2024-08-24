@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35219.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B1Task", "B1Task\B1Task.csproj", "{33AB7318-EC82-4A00-A1EB-96FF4708E686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelReader", "ExcelReader\ExcelReader.csproj", "{F8B39A65-2848-4F7C-B9DB-7AC11282AA54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33AB7318-EC82-4A00-A1EB-96FF4708E686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33AB7318-EC82-4A00-A1EB-96FF4708E686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33AB7318-EC82-4A00-A1EB-96FF4708E686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33AB7318-EC82-4A00-A1EB-96FF4708E686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B39A65-2848-4F7C-B9DB-7AC11282AA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B39A65-2848-4F7C-B9DB-7AC11282AA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B39A65-2848-4F7C-B9DB-7AC11282AA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B39A65-2848-4F7C-B9DB-7AC11282AA54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AC0F79C-0B0A-4D52-848E-0C1734D67DE4}
+	EndGlobalSection
+EndGlobal
