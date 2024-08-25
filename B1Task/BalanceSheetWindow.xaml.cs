@@ -15,7 +15,7 @@ public partial class BalanceSheetWindow : Window
     public BalanceSheetWindow(int fileId, string sheetName, string connectionString)
     {
         InitializeComponent();
-        // BalanceSheetDataGrid.LoadingRow += BalanceSheetDataGrid_LoadingRow;
+
         SheetNameBlock.Text = sheetName;
         BalanceSheetDataGrid.ItemsSource = GetBalanceSheetData(fileId, connectionString);
     }
@@ -119,7 +119,7 @@ public class StartsWithConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
 
@@ -129,7 +129,6 @@ public class TwoDigitAccountIDConverter : IValueConverter
     {
         if (value is string accountId)
         {
-            // Check if the AccountID is a two-digit number
             return accountId.Length == 2 && int.TryParse(accountId, out _);
         }
         return false;
@@ -137,6 +136,6 @@ public class TwoDigitAccountIDConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
