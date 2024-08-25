@@ -1,0 +1,20 @@
+﻿<Window x:Class="B1Task.ExcelReaderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:B1Task"
+        mc:Ignorable="d"
+        Title="ExcelReaderWindow" Height="350" Width="700" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10" x:Name="ParentGrid">
+        <StackPanel Margin="30 0" VerticalAlignment="Center" x:Name="ActionsGrid" Visibility="Visible">
+            <Button Height="50" Margin="0 0 0 10" Name="UploadFileButton" Click="UploadFileButton_OnClick">Зарузить файл</Button>
+            <Button Height="50" Name="ShowUploads" Click="ShowUploads_OnClick">Просмотреть загруженные ОСВ</Button>
+        </StackPanel>
+        <StackPanel Margin="10" x:Name="SelectUploadPanel" Visibility="Hidden">
+            <DataGrid MinHeight="100" CurrentCellChanged="SelectUploadGrid_OnCurrentCellChanged" Name="SelectUploadGrid" SelectionMode="Single" Height="100" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="True">
+            </DataGrid>
+            <Button Click="ShowSheetButton_OnClick" IsEnabled="False" x:Name="ShowSheetButton" Height="25">Показать ОСВ</Button>
+        </StackPanel>
+    </Grid>
+</Window>

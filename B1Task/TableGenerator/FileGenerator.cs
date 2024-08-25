@@ -2,7 +2,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace B1Task
+namespace B1Task.TableGenerator
 {
     public abstract class FileGenerator
     {

@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text;
 
-namespace B1Task
+namespace B1Task.TableGenerator
 {
     public class FileMerger
     {

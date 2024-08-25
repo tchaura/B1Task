@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.IO;
-using Npgsql;
 using System.Threading.Tasks.Dataflow;
+using Npgsql;
 
-namespace B1Task
+namespace B1Task.TableGenerator
 {
     public class DatabaseImporter(string connectionString)
     {

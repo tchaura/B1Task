@@ -8,12 +8,8 @@
         Title="B1 Test Task" Height="270" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Center">
-            <Button Height="30" Content="Генерировать файлы" Name="GenerateFilesButton" Click="GenerateFilesButton_Click" Margin="10"/>
-            <TextBlock Text="Введите строку для фильтрации:" Margin="10"/>
-            <TextBox Name="FilterTextBox" Margin="10"/>
-
-            <Button Height="30" Content="Объединить файлы" Name="MergeFilesButton" Click="MergeFilesButton_Click" Margin="10"/>
-            <Button Height="30" Content="Импортировать в БД" Name="ImportToDatabaseButton" Click="ImportToDatabaseButton_Click" Margin="10"/>
+            <Button Height="40" Content="Загрузить Excel-файл" Name="ExcelReaderButton" Click="ExcelReaderButton_Click" Margin="10"/>
+            <Button Height="40" Content="Генерация таблицы" Name="GenerateTableButton" Click="GenerateTableButton_Click" Margin="10"/>
         </StackPanel>
     </Grid>
 </Window>
