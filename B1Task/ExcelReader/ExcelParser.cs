@@ -31,12 +31,12 @@ public class ExcelParser(NpgsqlConnection connection)
 
             var (periodStart, periodEnd) = GetPeriodsFromString(periodString);
 
-            var bankId = InsertBank(connection, bankName);
-            var fileId = InsertUploadedFile(connection, Path.GetFileName(filePath), DateTime.Now, periodStart,
+            var bankId = InsertBank(bankName);
+            var fileId = InsertUploadedFile(Path.GetFileName(filePath), DateTime.Now, periodStart,
                 periodEnd, sheetName, bankId);
 
             var classificationId = 0;
-            InsertClassification(connection, classificationId, string.Empty);
+            InsertClassification(classificationId, string.Empty);
 
 
             for (var i = 8; i < sheet.Rows.Count; i++)
@@ -47,7 +47,7 @@ public class ExcelParser(NpgsqlConnection connection)
                     if (IsClassificationRow(row))
                     {
                         (classificationId, var classificationName) = GetClassificationFromString(firstCell);
-                        InsertClassification(connection, classificationId, classificationName);
+                        InsertClassification(classificationId, classificationName);
                     }
 
                 int accountId;
@@ -65,11 +65,10 @@ public class ExcelParser(NpgsqlConnection connection)
                     if (!int.TryParse(firstCell, out accountId)) continue;
                 }
 
-                CreateAccount(connection, accountId);
+                CreateAccount(accountId);
 
 
                 InsertBalanceSheet(
-                    connection,
                     classificationId,
                     accountId,
                     bankId,
@@ -115,9 +114,7 @@ public class ExcelParser(NpgsqlConnection connection)
     private static bool IsClassificationRow(DataRow row)
     {
         var rowString = row[0].ToString()!;
-        if (!rowString.Contains("класс", StringComparison.InvariantCultureIgnoreCase)) return false;
-
-        return true;
+        return rowString.Contains("класс", StringComparison.InvariantCultureIgnoreCase);
     }
 
     private (int, string) GetClassificationFromString(string rowString)
@@ -157,7 +154,7 @@ public class ExcelParser(NpgsqlConnection connection)
                row[5] is double && row[6] is double;
     }
 
-    private void InsertClassification(NpgsqlConnection connection, int classificationId, string classificationName)
+    private void InsertClassification(int classificationId, string classificationName)
     {
         var query =
             "INSERT INTO balancesheetschema.classifications (classificationid, classificationname) values (@classificationId, @classificationName) ON CONFLICT DO NOTHING ";
@@ -167,7 +164,7 @@ public class ExcelParser(NpgsqlConnection connection)
         command.ExecuteNonQuery();
     }
 
-    private static int InsertBank(NpgsqlConnection connection, string bankName)
+    private int InsertBank(string bankName)
     {
         const string query = "INSERT INTO BalanceSheetSchema.Banks (BankName) VALUES (@bankName) RETURNING BankID;";
         using var command = new NpgsqlCommand(query, connection);
@@ -175,7 +172,7 @@ public class ExcelParser(NpgsqlConnection connection)
         return (int)command.ExecuteScalar()!;
     }
 
-    private static int InsertUploadedFile(NpgsqlConnection connection, string fileName, DateTime dateUploaded,
+    private int InsertUploadedFile(string fileName, DateTime dateUploaded,
         DateTime periodStart, DateTime periodEnd, string sheetName, int bankId)
     {
         const string query = """
@@ -193,7 +190,7 @@ public class ExcelParser(NpgsqlConnection connection)
         return (int)command.ExecuteScalar()!;
     }
 
-    private static void CreateAccount(NpgsqlConnection connection, int accountId)
+    private void CreateAccount(int accountId)
     {
         const string insertQuery =
             "INSERT INTO BalanceSheetSchema.Accounts (accountid, accountname) VALUES (@accountId, @accountId) ON CONFLICT DO NOTHING RETURNING AccountID;";
@@ -202,8 +199,7 @@ public class ExcelParser(NpgsqlConnection connection)
         insertCommand.ExecuteNonQuery();
     }
 
-    private static void InsertBalanceSheet(
-        NpgsqlConnection connection,
+    private void InsertBalanceSheet(
         int classificationId,
         int accountId,
         int bankId,
