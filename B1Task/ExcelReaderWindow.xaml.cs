@@ -9,7 +9,7 @@ namespace B1Task;
 public partial class ExcelReaderWindow : Window
 {
     private readonly NpgsqlConnection _connection;
-    
+
     public ExcelReaderWindow(string connectionString)
     {
         InitializeComponent();
@@ -25,11 +25,8 @@ public partial class ExcelReaderWindow : Window
         };
         openFileDialog.ShowDialog();
 
-        if (string.IsNullOrWhiteSpace(openFileDialog.FileName))
-        {
-            return;
-        }
-        
+        if (string.IsNullOrWhiteSpace(openFileDialog.FileName)) return;
+
         try
         {
             var excelReader = new ExcelParser(_connection);
@@ -47,7 +44,7 @@ public partial class ExcelReaderWindow : Window
     {
         ActionsGrid.Visibility = Visibility.Hidden;
         SelectUploadPanel.Visibility = Visibility.Visible;
-        
+
         SelectUploadGrid.ItemsSource = LoadUploadsList();
     }
 
@@ -55,16 +52,16 @@ public partial class ExcelReaderWindow : Window
     {
         ShowSheetButton.IsEnabled = true;
     }
-    
+
     private ObservableCollection<Upload> LoadUploadsList()
     {
         var uploads = new ObservableCollection<Upload>();
         _connection.Open();
         using var command = _connection.CreateCommand();
-        command.CommandText = "SELECT * FROM balancesheetschema.uploadedfiles JOIN balancesheetschema.banks b on b.bankid = uploadedfiles.bankid";
+        command.CommandText =
+            "SELECT * FROM balancesheetschema.uploadedfiles JOIN balancesheetschema.banks b on b.bankid = uploadedfiles.bankid";
         using var reader = command.ExecuteReader();
         while (reader.Read())
-        {
             uploads.Add(new Upload
             {
                 FileId = reader.GetInt16(0),
@@ -73,14 +70,24 @@ public partial class ExcelReaderWindow : Window
                 PeriodStart = reader.GetDateTime(3).ToShortDateString(),
                 PeriodEnd = reader.GetDateTime(4).ToShortDateString(),
                 SheetName = reader.GetString(5),
-                BankName = reader.GetString(8),
+                BankName = reader.GetString(8)
             });
-            
-        }
-        
+
         _connection.Close();
-        
+
         return uploads;
+    }
+
+
+    private void ShowSheetButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        var selectedUpload = (Upload)SelectUploadGrid.SelectedItem;
+        var balanceSheetWindow = new BalanceSheetWindow(selectedUpload.FileId, selectedUpload.SheetName, _connection)
+        {
+            Owner = this
+        };
+        balanceSheetWindow.ShowDialog();
+        Close();
     }
 
     private class Upload
@@ -92,17 +99,5 @@ public partial class ExcelReaderWindow : Window
         public string? PeriodEnd { get; set; }
         public DateTime DateUploaded { get; set; }
         public string? FileName { get; set; }
-    }
-
-
-    private void ShowSheetButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        var selectedUpload = (Upload)SelectUploadGrid.SelectedItem;
-        var balanceSheetWindow = new BalanceSheetWindow(selectedUpload.FileId, selectedUpload.SheetName, _connection)
-            {
-                Owner = this
-            };
-        balanceSheetWindow.ShowDialog();
-        Close();
     }
 }

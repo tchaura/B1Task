@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Globalization;
-using Npgsql;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
+using Npgsql;
 
 namespace B1Task;
 
@@ -11,28 +11,14 @@ public partial class BalanceSheetWindow : Window
     {
         InitializeComponent();
 
-        if (sheetName != null)
-        {
-            SheetNameBlock.Text = sheetName;
-        }
+        if (sheetName != null) SheetNameBlock.Text = sheetName;
         BalanceSheetDataGrid.ItemsSource = GetBalanceSheetData(fileId, connection);
-    }
-
-    public class BalanceSheetRow
-    {
-        public string? AccountId { get; set; }
-        public string? InitialDebit { get; set; }
-        public string? InitialCredit { get; set; }
-        public string? TurnoverDebit { get; set; }
-        public string? TurnoverCredit { get; set; }
-        public string? EndingDebit { get; set; }
-        public string? EndingCredit { get; set; }
     }
 
     private static List<BalanceSheetRow> GetBalanceSheetData(int fileId, NpgsqlConnection connection)
     {
         var result = new List<BalanceSheetRow>();
-        
+
         connection.Open();
 
         const string query = """
@@ -66,7 +52,8 @@ public partial class BalanceSheetWindow : Window
                     var endingDebit = reader.GetDecimal(7);
                     var endingCredit = reader.GetDecimal(8);
 
-                    if (lastClassificationId == null || classificationId != lastClassificationId && classificationId != 0)
+                    if (lastClassificationId == null ||
+                        (classificationId != lastClassificationId && classificationId != 0))
                     {
                         result.Add(new BalanceSheetRow
                         {
@@ -96,21 +83,29 @@ public partial class BalanceSheetWindow : Window
                 }
             }
         }
-            
+
         connection.Close();
 
         return result;
     }
-    
+
+    public class BalanceSheetRow
+    {
+        public string? AccountId { get; set; }
+        public string? InitialDebit { get; set; }
+        public string? InitialCredit { get; set; }
+        public string? TurnoverDebit { get; set; }
+        public string? TurnoverCredit { get; set; }
+        public string? EndingDebit { get; set; }
+        public string? EndingCredit { get; set; }
+    }
 }
+
 public class StartsWithConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is string accountId && parameter is string prefix)
-        {
-            return accountId.StartsWith(prefix);
-        }
+        if (value is string accountId && parameter is string prefix) return accountId.StartsWith(prefix);
         return false;
     }
 
@@ -124,10 +119,7 @@ public class TwoDigitAccountIdConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is string accountId)
-        {
-            return accountId.Length == 2 && int.TryParse(accountId, out _);
-        }
+        if (value is string accountId) return accountId.Length == 2 && int.TryParse(accountId, out _);
         return false;
     }
 

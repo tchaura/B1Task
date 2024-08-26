@@ -1,7 +1,7 @@
-﻿namespace B1Task;
-
+﻿using System.IO;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+
+namespace B1Task;
 
 public class ConfigurationHelper
 {

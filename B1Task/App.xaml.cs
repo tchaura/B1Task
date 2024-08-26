@@ -1,17 +1,16 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Windows;
 
-namespace B1Task
+namespace B1Task;
+
+/// <summary>
+///     Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    protected override void OnStartup(StartupEventArgs e)
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            base.OnStartup(e);
-        }
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        base.OnStartup(e);
     }
-
 }

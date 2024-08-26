@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using B1Task.TableGenerator;
 
@@ -9,21 +7,21 @@ namespace B1Task;
 
 public partial class TableGeneratorWindow : Window
 {
-    private readonly string _sourceFolderPath;
-    private readonly string _destinationFolderPath;
-    private int _totalRowsCount;
     private readonly string _connectionString;
-    
+    private readonly string _destinationFolderPath;
+    private readonly string _sourceFolderPath;
+    private int _totalRowsCount;
+
     public TableGeneratorWindow(string connectionString)
     {
         InitializeComponent();
-        
+
         var appBaseDir = AppDomain.CurrentDomain.BaseDirectory;
         _sourceFolderPath = Path.Combine(appBaseDir, "generated");
         _destinationFolderPath = Path.Combine(appBaseDir, "merged");
         Directory.CreateDirectory(_sourceFolderPath);
         Directory.CreateDirectory(_destinationFolderPath);
-        
+
         _connectionString = connectionString;
     }
 
@@ -33,11 +31,8 @@ public partial class TableGeneratorWindow : Window
         {
             Owner = this
         };
-        var progress = new Progress<int>(value =>
-        {
-            progressDialog.UpdateProgress(value);
-        });
-        
+        var progress = new Progress<int>(value => { progressDialog.UpdateProgress(value); });
+
         try
         {
             var generateFilesAsyncTask = FileGenerator.GenerateFilesAsync(_sourceFolderPath, 100, 100000, progress);
@@ -50,34 +45,34 @@ public partial class TableGeneratorWindow : Window
         {
             MessageBox.Show($"Ошибка генерации файлов: {ex.Message}");
         }
-        finally{progressDialog.Close();}
+        finally
+        {
+            progressDialog.Close();
+        }
     }
-    
+
     private async void MergeFilesButton_Click(object sender, RoutedEventArgs e)
     {
         var progressDialog = new ProgressDialog
         {
-            Owner = this,
+            Owner = this
         };
-        var progress = new Progress<int>(value =>
-        {
-            progressDialog.UpdateProgress(value);
-        });
+        var progress = new Progress<int>(value => { progressDialog.UpdateProgress(value); });
         try
         {
             var filter = FilterTextBox.Text;
             var merger = new FileMerger();
 
             var destinationFilePath = Path.Combine(_destinationFolderPath, "merged.txt");
-            
+
             var stopwatch = Stopwatch.StartNew();
-            
+
             var removedCountTask = merger.MergeFiles(_sourceFolderPath, destinationFilePath, filter, progress);
             progressDialog.ShowDialog();
             var removedCount = await removedCountTask;
-            
+
             stopwatch.Stop();
-                
+
             _totalRowsCount = 10_000_000 - removedCount;
 
             MessageBox.Show($"Файлы успешно объединены! Удалено строк: {removedCount}");
@@ -86,35 +81,35 @@ public partial class TableGeneratorWindow : Window
         {
             MessageBox.Show($"Ошибка объединения файлов: {ex.Message}");
         }
-        finally{progressDialog.Close();}
+        finally
+        {
+            progressDialog.Close();
+        }
     }
 
     private async void ImportToDatabaseButton_Click(object sender, RoutedEventArgs e)
     {
         var filePath = Path.Combine(_destinationFolderPath, "merged.txt");
-        if (_totalRowsCount == 0)
-        {
-            _totalRowsCount = FileRowsCounter(filePath);
-        }
+        if (_totalRowsCount == 0) _totalRowsCount = FileRowsCounter(filePath);
         var progressDialog = new ProgressDialog(_totalRowsCount)
         {
             Owner = this
         };
-        var progress = new Progress<int>((value) => { progressDialog.UpdateProgressWithText(value); });
+        var progress = new Progress<int>(value => { progressDialog.UpdateProgressWithText(value); });
 
         try
         {
             var importer = new DatabaseImporter(_connectionString);
 
             var importDataAsyncTask = importer.ImportDataAsync(filePath, progress);
-            
+
             var stopwatch = Stopwatch.StartNew();
-            
+
             progressDialog.ShowDialog();
             await importDataAsyncTask;
-                
+
             stopwatch.Stop();
-            MessageBox.Show($"Импорт успешно завершён");
+            MessageBox.Show("Импорт успешно завершён");
         }
         catch (Exception ex)
         {
@@ -140,9 +135,8 @@ public partial class TableGeneratorWindow : Window
             for (var i = 0; i < bytesRead; i++)
                 if (buffer[i] == '\n')
                     lineCount++;
-        }
-        while (bytesRead > 0);
-        
+        } while (bytesRead > 0);
+
         return lineCount;
     }
 }

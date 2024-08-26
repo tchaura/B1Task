@@ -7,18 +7,18 @@
         <TextBlock x:Name="PlaceholderText" VerticalAlignment="Top">Working...</TextBlock>
         <Grid x:Name="ProgressTextGrid" VerticalAlignment="Top" Height="39">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0">Completed:</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="0">Left:</TextBlock>
             <TextBlock TextAlignment="Right" x:Name="CompletedText" Grid.Row="0" Grid.Column="1">N/A</TextBlock>
             <TextBlock TextAlignment="Right" x:Name="LeftText" Grid.Row="1" Grid.Column="1">N/A</TextBlock>
         </Grid>
-        <ProgressBar x:Name="progressBar" Height="20" VerticalAlignment="Bottom"/>
+        <ProgressBar x:Name="progressBar" Height="20" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

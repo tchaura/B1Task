@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:B1Task"
         mc:Ignorable="d"
         Title="B1 Test Task" Height="270" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel VerticalAlignment="Center">
-            <Button Height="40" Content="Загрузить Excel-файл" Name="ExcelReaderButton" Click="ExcelReaderButton_Click" Margin="10"/>
-            <Button Height="40" Content="Генерация таблицы" Name="GenerateTableButton" Click="GenerateTableButton_Click" Margin="10"/>
+            <Button Height="40" Content="Загрузить Excel-файл" Name="ExcelReaderButton" Click="ExcelReaderButton_Click"
+                    Margin="10" />
+            <Button Height="40" Content="Генерация таблицы" Name="GenerateTableButton"
+                    Click="GenerateTableButton_Click" Margin="10" />
         </StackPanel>
     </Grid>
 </Window>

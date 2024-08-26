@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:B1Task"
         mc:Ignorable="d"
         Title="ExcelReaderWindow" Height="350" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid Margin="10" x:Name="ParentGrid">
@@ -12,15 +11,17 @@
             <Button Height="50" Name="ShowUploads" Click="ShowUploads_OnClick">Просмотреть загруженные ОСВ</Button>
         </StackPanel>
         <StackPanel Margin="10" x:Name="SelectUploadPanel" Visibility="Hidden">
-            <DataGrid MinHeight="240" CurrentCellChanged="SelectUploadGrid_OnCurrentCellChanged" AutoGenerateColumns="False" Name="SelectUploadGrid" SelectionMode="Single" Height="100" CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid MinHeight="240" CurrentCellChanged="SelectUploadGrid_OnCurrentCellChanged"
+                      AutoGenerateColumns="False" Name="SelectUploadGrid" SelectionMode="Single" Height="100"
+                      CanUserAddRows="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding SheetName}" />
                     <DataGridTextColumn Header="Банк" Binding="{Binding BankName}" />
                     <DataGridTextColumn Header="Имя файла" Binding="{Binding FileName}" />
                     <DataGridTextColumn Header="Дата загрузки" Binding="{Binding DateUploaded}" />
-                    </DataGrid.Columns>
+                </DataGrid.Columns>
             </DataGrid>
-            <Button  Click="ShowSheetButton_OnClick" IsEnabled="False" x:Name="ShowSheetButton" Height="25">Показать ОСВ</Button>
+            <Button Click="ShowSheetButton_OnClick" IsEnabled="False" x:Name="ShowSheetButton" Height="25">Показать ОСВ</Button>
         </StackPanel>
     </Grid>
 </Window>
