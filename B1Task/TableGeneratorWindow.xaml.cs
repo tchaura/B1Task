@@ -80,7 +80,7 @@ public partial class TableGeneratorWindow : Window
                 
             _totalRowsCount = 10_000_000 - removedCount;
 
-            MessageBox.Show($"Файлы успешно объединены! Удалено строк: {removedCount} in {stopwatch.Elapsed}");
+            MessageBox.Show($"Файлы успешно объединены! Удалено строк: {removedCount}");
         }
         catch (Exception ex)
         {
@@ -95,7 +95,6 @@ public partial class TableGeneratorWindow : Window
         if (_totalRowsCount == 0)
         {
             _totalRowsCount = FileRowsCounter(filePath);
-            Console.WriteLine(_totalRowsCount);
         }
         var progressDialog = new ProgressDialog(_totalRowsCount)
         {
@@ -115,7 +114,7 @@ public partial class TableGeneratorWindow : Window
             await importDataAsyncTask;
                 
             stopwatch.Stop();
-            MessageBox.Show($"Импорт успешно завершён in {stopwatch.Elapsed}");
+            MessageBox.Show($"Импорт успешно завершён");
         }
         catch (Exception ex)
         {
