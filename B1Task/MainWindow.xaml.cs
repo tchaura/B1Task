@@ -9,24 +9,30 @@ namespace B1Task
 {
     public partial class MainWindow : Window
     {
-        private const string ConnectionString =
-            "Server=127.0.0.1;Port=5432;Database=postgres;UserId=postgres;Password=admin; Include Error Detail=true;";
+        private readonly string _connectionString;
         public MainWindow()
         {
             InitializeComponent();
+            
+            var connectionString = ConfigurationHelper.GetConfiguration()["ConnectionString"];
+            _connectionString = connectionString ?? throw new NullReferenceException("Connection string is not set");
         }
         
         private void ExcelReaderButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ExcelReaderWindow(ConnectionString);
-            window.Owner = this;
+            var window = new ExcelReaderWindow(_connectionString)
+            {
+                Owner = this
+            };
             window.ShowDialog();
         }
 
         private void GenerateTableButton_Click(object sender, RoutedEventArgs e)
         {
-            TableGeneratorWindow window = new TableGeneratorWindow();
-            window.Owner = this;
+            var window = new TableGeneratorWindow(_connectionString)
+            {
+                Owner = this
+            };
             window.ShowDialog();
         }
     }

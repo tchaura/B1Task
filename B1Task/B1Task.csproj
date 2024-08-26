@@ -8,19 +8,15 @@
     <UseWPF>true</UseWPF>
     <LangVersion>12</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <UserSecretsId>B1TestTask</UserSecretsId>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.7.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0-preview.7.24405.7" />
     <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
-
-<!--  <ItemGroup>-->
-<!--    <Page Update="TableGeneratorWindow.xaml">-->
-<!--      <Generator>MSBuild:Compile</Generator>-->
-<!--      <XamlRuntime>Wpf</XamlRuntime>-->
-<!--      <SubType>Designer</SubType>-->
-<!--    </Page>-->
-<!--  </ItemGroup>-->
 
 </Project>

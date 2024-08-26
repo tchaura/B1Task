@@ -1,7 +1,4 @@
-﻿using System.CodeDom;
-using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace B1Task
 {
@@ -12,9 +9,8 @@ namespace B1Task
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                base.OnStartup(e);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            base.OnStartup(e);
         }
     }
 

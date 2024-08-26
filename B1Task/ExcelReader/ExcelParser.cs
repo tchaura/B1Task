@@ -7,21 +7,21 @@ using Npgsql;
 
 namespace B1Task.ExcelReader
 {
-    public class ExcelParser(string connectionString)
+    public class ExcelParser(NpgsqlConnection connection)
     {
         public void Import(string filePath)
         {
             DataSet dataSet = ReadExcelFile(filePath);
-
-            using var connection = new NpgsqlConnection(connectionString);
+            
             connection.Open();
             using var transaction = connection.BeginTransaction();
             try
             {
                 DataTable sheet = dataSet.Tables[0];
-                
-                var sheetName = sheet.Rows[1].ItemArray[0] + " " + sheet.Rows[2].ItemArray[0] + " " + sheet.Rows[3].ItemArray[0];
-                
+
+                var sheetName = sheet.Rows[1].ItemArray[0] + " " + sheet.Rows[2].ItemArray[0] + " " +
+                                sheet.Rows[3].ItemArray[0];
+
                 var bankName = sheet.Rows[0].ItemArray[0].ToString();
                 if (string.IsNullOrEmpty(bankName))
                 {
@@ -37,7 +37,8 @@ namespace B1Task.ExcelReader
                 var (periodStart, periodEnd) = GetPeriodsFromString(periodString);
 
                 int bankId = InsertBank(connection, bankName);
-                int fileId = InsertUploadedFile(connection, Path.GetFileName(filePath), DateTime.Now, periodStart, periodEnd, sheetName, bankId);
+                int fileId = InsertUploadedFile(connection, Path.GetFileName(filePath), DateTime.Now, periodStart,
+                    periodEnd, sheetName, bankId);
 
                 int classificationId = 0;
                 InsertClassification(connection, classificationId, string.Empty);
@@ -99,6 +100,10 @@ namespace B1Task.ExcelReader
             {
                 transaction.Rollback();
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 

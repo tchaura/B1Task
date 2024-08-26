@@ -27,11 +27,9 @@ namespace B1Task.TableGenerator
                 while ((line = (await reader.ReadLineAsync())!) != null)
                 {
                     batch.Add(line);
-                    if (batch.Count >= BatchSize)
-                    {
-                        await block.SendAsync(batch);
-                        batch = new List<string>();
-                    }
+                    if (batch.Count < BatchSize) continue;
+                    await block.SendAsync(batch);
+                    batch = new List<string>();
                 }
 
                 if (batch.Count > 0)
@@ -52,7 +50,7 @@ namespace B1Task.TableGenerator
             await using var writer = await conn.BeginBinaryImportAsync(copyCommand);
             foreach (var line in lines)
             {
-                var parts = line.Split("||", StringSplitOptions.None);
+                var parts = line.Split("||");
 
                 await writer.StartRowAsync();
                 await writer.WriteAsync(DateTime.ParseExact(parts[0], "dd.MM.yyyy", CultureInfo.InvariantCulture),
@@ -64,8 +62,8 @@ namespace B1Task.TableGenerator
                     NpgsqlTypes.NpgsqlDbType.Numeric);
             }
 
+            progress.Report(lines.Count);
             await writer.CompleteAsync();
-            progress.Report(BatchSize);
 
         }
     }

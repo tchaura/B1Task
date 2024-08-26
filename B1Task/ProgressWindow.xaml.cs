@@ -34,7 +34,7 @@ namespace B1Task
             progressBar.Value += value;
             CompletedText.Text = progressBar.Value.ToString(CultureInfo.InvariantCulture);
             LeftText.Text = (progressBar.Maximum - progressBar.Value).ToString(CultureInfo.InvariantCulture);
-            if (progressBar.Value == progressBar.Maximum) 
+            if (progressBar.Value >= progressBar.Maximum) 
             {
                 Close();
             }
